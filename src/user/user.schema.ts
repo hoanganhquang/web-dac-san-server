@@ -17,7 +17,7 @@ export class User {
   @Prop({ required: true, unique: true })
   email: string;
 
-  @Prop({ default: '' })
+  @Prop({ default: '', unique: true })
   phone: string;
 
   @Prop({ default: 'user' })

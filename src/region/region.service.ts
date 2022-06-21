@@ -10,7 +10,7 @@ export class RegionService {
     @InjectModel(Region.name) private regionModel: Model<RegionDocument>,
   ) {}
 
-  findAll() {
+  findAll(): Promise<Region[]> {
     return this.regionModel.find().exec();
   }
 

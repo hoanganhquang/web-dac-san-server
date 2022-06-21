@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserController } from './user.controller';
 import { User, UserSchema } from './user.schema';
 import { UserService } from './user.service';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 
 @Module({
   imports: [
@@ -20,13 +20,6 @@ import bcrypt from 'bcrypt';
 
             next();
           });
-
-          schema.methods.checkPassword = function (
-            passwordCheck: string,
-            currentPassword: string,
-          ) {
-            return bcrypt.compare(passwordCheck, currentPassword);
-          };
 
           return schema;
         },
