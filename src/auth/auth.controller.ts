@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Post,
@@ -17,7 +18,7 @@ export class AuthController {
   @Post('signin')
   async signIn(@Body() authUserDto: AuthUserDto) {
     if (!authUserDto?.email || !authUserDto?.password)
-      throw new UnauthorizedException();
+      throw new BadRequestException();
 
     const res = await this.authService.signIn(
       authUserDto.email,
@@ -33,7 +34,7 @@ export class AuthController {
   @UseFilters(MongoExceptionFilter)
   async signUn(@Body() authUserDto: AuthUserDto) {
     if (!authUserDto?.email || !authUserDto?.password)
-      throw new UnauthorizedException();
+      throw new BadRequestException();
 
     const res = await this.authService.signUp(
       authUserDto.email,
