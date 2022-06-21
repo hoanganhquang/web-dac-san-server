@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ProvinceService } from './province.service';
 import { ProvinceController } from './province.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Province, ProvinceSchema } from './province.shema';
+import { Province, ProvinceSchema } from './province.schema';
 
 @Module({
   imports: [

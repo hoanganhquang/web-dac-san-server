@@ -1,13 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Province } from 'src/province/province.schema';
+import { Region, RegionDocument } from './region.schema';
 
 @Injectable()
 export class RegionService {
-  create() {
-    return 'This action adds a new region';
-  }
+  constructor(
+    @InjectModel(Region.name) private regionModel: Model<RegionDocument>,
+  ) {}
 
   findAll() {
-    return `This action returns all region`;
+    return this.regionModel.find().exec();
   }
 
   findOne(id: number) {

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as mSchema } from 'mongoose';
-import { Province } from 'src/province/province.shema';
+import { Province } from 'src/province/province.schema';
 
 export type ProductDocument = Product & Document;
 

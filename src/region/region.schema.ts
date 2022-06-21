@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as mSchema } from 'mongoose';
-import { Province } from 'src/province/province.shema';
+import { Document, Schema as mSchema, Types } from 'mongoose';
+import { Province } from 'src/province/province.schema';
 
 export type RegionDocument = Region & Document;
 
@@ -9,7 +9,7 @@ export class Region {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ type: [{ type: mSchema.Types.ObjectId, ref: 'Provinces' }] })
+  @Prop({ type: [{ type: mSchema.Types.ObjectId, ref: Province.name }] })
   provinces: Province[];
 }
 

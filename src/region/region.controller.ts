@@ -9,18 +9,20 @@ import {
 } from '@nestjs/common';
 import { RegionService } from './region.service';
 
-@Controller('region')
+@Controller('/api/v1/regions')
 export class RegionController {
   constructor(private readonly regionService: RegionService) {}
 
-  @Post()
-  create() {
-    return this.regionService.create();
-  }
+  // @Post()
+  // create() {
+  //   return this.regionService.create();
+  // }
 
   @Get()
-  findAll() {
-    return this.regionService.findAll();
+  async findAll() {
+    const data = await this.regionService.findAll();
+
+    return { data };
   }
 
   @Get(':id')

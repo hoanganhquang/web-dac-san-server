@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ProvinceService } from './province.service';
 
-@Controller('region')
+@Controller('provinces')
 export class ProvinceController {
   constructor(private readonly provinceService: ProvinceService) {}
 
