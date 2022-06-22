@@ -1,14 +1,16 @@
 import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Date, Document, Schema as mSchema } from 'mongoose';
-import moment from 'moment';
+import { Document, Schema as mSchema } from 'mongoose';
+import * as moment from 'moment';
 import { User } from 'src/user/user.schema';
 
 export type OrderDocument = Order & Document;
 
+const now = moment().format('YYYY-MM-DD');
+
 @Schema()
 export class Order {
-  @Prop({ default: moment().format('YYYY-MM-DD') })
-  orderDate: Date;
+  @Prop({ default: now })
+  orderDate: mSchema.Types.Date;
 
   @Prop()
   total: number;

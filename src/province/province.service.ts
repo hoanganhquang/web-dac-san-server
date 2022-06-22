@@ -1,24 +1,27 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Province, ProvinceDocument } from './province.schema';
 
 @Injectable()
 export class ProvinceService {
-  create() {
-    return 'This action adds a new region';
+  constructor(
+    @InjectModel(Province.name) private provinceModel: Model<ProvinceDocument>,
+  ) {}
+
+  create(name: string): Promise<Province> {
+    return this.provinceModel.create({ name });
   }
 
-  findAll() {
-    return `This action returns all region`;
+  findAll(): Promise<Province[]> {
+    return this.provinceModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} region`;
+  update(id: string, data: any): Promise<Province> {
+    return this.provinceModel.findByIdAndUpdate(id, data, { new: true }).exec();
   }
 
-  update(id: number) {
-    return `This action updates a #${id} region`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} region`;
+  remove(id: string): Promise<Province> {
+    return this.provinceModel.findByIdAndRemove(id).exec();
   }
 }

@@ -5,7 +5,7 @@ export type ProvinceDocument = Province & Document;
 
 @Schema()
 export class Province {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   name: string;
 }
 

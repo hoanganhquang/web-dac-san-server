@@ -6,7 +6,7 @@ export type ProductDocument = Product & Document;
 
 @Schema()
 export class Product {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   name: string;
 
   @Prop({ required: true })
@@ -21,7 +21,7 @@ export class Product {
   @Prop({ default: '' })
   image: string;
 
-  @Prop({ type: mSchema.Types.ObjectId, ref: 'province' })
+  @Prop({ type: mSchema.Types.ObjectId, ref: 'province', required: true })
   province: Province;
 }
 

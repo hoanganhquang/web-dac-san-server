@@ -10,19 +10,21 @@ export class RegionService {
     @InjectModel(Region.name) private regionModel: Model<RegionDocument>,
   ) {}
 
-  findAll(): Promise<Region[]> {
+  create(name: string, provinces: []): Promise<Province> {
+    return this.regionModel.create({ name, provinces });
+  }
+
+  findAll(): Promise<Province[]> {
     return this.regionModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} region`;
+  update(id: string, updateData: any): Promise<Province> {
+    return this.regionModel
+      .findByIdAndUpdate(id, updateData, { new: true })
+      .exec();
   }
 
-  update(id: number) {
-    return `This action updates a #${id} region`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} region`;
+  remove(id: string): Promise<Province> {
+    return this.regionModel.findByIdAndDelete(id).exec();
   }
 }

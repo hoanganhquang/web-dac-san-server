@@ -12,8 +12,11 @@ export class RolesGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
-    const user = request.user;
-    if (user.role.toLowerCase() !== 'admin') throw new UnauthorizedException();
-    return user;
+
+    if (!request?.user) throw new UnauthorizedException();
+    if (request.user.role.toLowerCase() !== 'admin')
+      throw new UnauthorizedException();
+
+    return request.user;
   }
 }

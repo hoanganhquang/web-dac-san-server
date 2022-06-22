@@ -6,6 +6,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { RegionModule } from './region/region.module';
 import { ConfigModule } from '@nestjs/config';
+import { ProvinceModule } from './province/province.module';
+import { ProductModule } from './product/product.module';
+import { CartModule } from './cart/cart.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -16,6 +20,10 @@ import { ConfigModule } from '@nestjs/config';
     AuthModule,
     UserModule,
     RegionModule,
+    ProvinceModule,
+    ProductModule,
+    CartModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
