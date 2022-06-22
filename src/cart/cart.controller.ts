@@ -5,36 +5,74 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
+  Request,
+  UseGuards,
+  BadRequestException,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/role.guard';
 import { CartService } from './cart.service';
 
 @Controller('carts')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 
-  @Post()
-  create() {
-    return this.cartService.create();
-  }
-
   @Get()
-  findAll() {
-    return this.cartService.findAll();
+  @UseGuards(JwtAuthGuard)
+  async findOne(@Request() req) {
+    const result = await this.cartService.findOne({ user: req.user._id });
+    return { data: result };
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cartService.findOne(+id);
+  @Post()
+  async addToCart(@Request() req, @Body() data: any) {
+    try {
+      const result: any = await this.cartService.findOne({
+        user: req.user._id,
+      });
+
+      result.products.push(data);
+
+      const result1 = await this.cartService.update(result._id, {
+        products: result.products,
+      });
+
+      return { data: result1 };
+    } catch (error) {
+      throw new BadRequestException();
+    }
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string) {
-    return this.cartService.update(+id);
-  }
+  @Patch(':action')
+  async updateCart(@Request() req, @Body() data: any, @Param('action') action) {
+    try {
+      const result: any = await this.cartService.findOne({
+        user: req.user._id,
+      });
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cartService.remove(+id);
+      if (action == 'update') {
+        result.products.forEach((item: any) => {
+          if (item._id == data.product) {
+            item.quantity = data.newQuantity;
+          }
+        });
+      }
+
+      if (action == 'remove') {
+        result.products.forEach((item: any, index: number) => {
+          if (item._id == data.product) {
+            result.products.splice(index, 1);
+          }
+        });
+      }
+
+      const result1 = await this.cartService.update(result._id, {
+        products: result.products,
+      });
+
+      return result1;
+    } catch (error) {
+      throw new BadRequestException();
+    }
   }
 }

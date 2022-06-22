@@ -1,24 +1,27 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Order, OrderDocument } from './order.schema';
 
 @Injectable()
 export class OrderService {
-  create() {
-    return 'This action adds a new region';
+  constructor(
+    @InjectModel(Order.name) private orderModel: Model<OrderDocument>,
+  ) {}
+
+  create(data: {}): Promise<Order> {
+    return this.orderModel.create(data);
   }
 
-  findAll() {
-    return `This action returns all region`;
+  findAll(): Promise<Order[]> {
+    return this.orderModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} region`;
+  findById(id: string) {
+    return this.orderModel.findById(id).exec();
   }
 
-  update(id: number) {
-    return `This action updates a #${id} region`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} region`;
+  findByQuery(query: {}): Promise<Order[]> {
+    return this.orderModel.find(query).exec();
   }
 }

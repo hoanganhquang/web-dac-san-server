@@ -26,7 +26,7 @@ export class Order {
   details: [];
 
   @Prop({ type: mSchema.Types.ObjectId, ref: 'user' })
-  province: User;
+  user: User;
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);

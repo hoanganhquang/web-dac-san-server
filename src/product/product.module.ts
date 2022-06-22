@@ -37,5 +37,6 @@ import { diskStorage } from 'multer';
   ],
   controllers: [ProductController],
   providers: [ProductService],
+  exports: [ProductService],
 })
 export class ProductModule {}

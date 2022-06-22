@@ -1,24 +1,21 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Cart, CartDocument } from './cart.schema';
 
 @Injectable()
 export class CartService {
-  create() {
-    return 'This action adds a new region';
+  constructor(@InjectModel(Cart.name) private cartModel: Model<CartDocument>) {}
+
+  create(data: {}): Promise<Cart> {
+    return this.cartModel.create(data);
   }
 
-  findAll() {
-    return `This action returns all region`;
+  findOne(query: {}): Promise<Cart> {
+    return this.cartModel.findOne(query).exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} region`;
-  }
-
-  update(id: number) {
-    return `This action updates a #${id} region`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} region`;
+  update(id: string, data: any): Promise<Cart> {
+    return this.cartModel.findByIdAndUpdate(id, data, { new: true }).exec();
   }
 }

@@ -6,18 +6,27 @@ export type CartDocument = Cart & Document;
 
 @Schema()
 export class Cart {
-  @Prop({ type: mSchema.Types.ObjectId, ref: 'user' })
+  @Prop({ type: mSchema.Types.ObjectId, ref: 'user', required: true })
   province: User;
 
-  @Prop([
-    raw({
-      product: { type: mSchema.Types.ObjectId, ref: 'product' },
-      name: String,
-      price: Number,
-      quantity: Number,
-    }),
-  ])
-  products: [];
+  @Prop()
+  products: [
+    {
+      product: {
+        type: mSchema.Types.ObjectId;
+        ref: 'product';
+      };
+      name: {
+        type: String;
+      };
+      price: {
+        type: Number;
+      };
+      quantity: {
+        type: Number;
+      };
+    },
+  ];
 }
 
 export const CartSchema = SchemaFactory.createForClass(Cart);
