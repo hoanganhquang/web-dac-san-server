@@ -18,4 +18,18 @@ export class UserService {
   findById(userId: string): Promise<User> {
     return this.userModel.findById(userId).select('-password').exec();
   }
+
+  update(id: string, data: {}) {
+    return this.userModel
+      .findByIdAndUpdate({ _id: id }, data, { new: true })
+      .select('-password')
+      .exec();
+  }
+
+  updatePass(id: string, data: {}) {
+    return this.userModel
+      .updateOne({ _id: id }, data)
+      .select('-password')
+      .exec();
+  }
 }

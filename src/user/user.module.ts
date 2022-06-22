@@ -7,22 +7,10 @@ import * as bcrypt from 'bcrypt';
 
 @Module({
   imports: [
-    MongooseModule.forFeatureAsync([
+    MongooseModule.forFeature([
       {
         name: User.name,
-        useFactory: () => {
-          const schema = UserSchema;
-
-          schema.pre('save', async function (next) {
-            if (!this.isModified('password')) return next();
-
-            this.password = await bcrypt.hash(this.password, 10);
-
-            next();
-          });
-
-          return schema;
-        },
+        schema: UserSchema,
       },
     ]),
   ],
