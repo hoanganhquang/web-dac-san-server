@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -46,5 +46,11 @@ export class AuthService {
     return token;
   }
 
-  async validateUser() {}
+  async validateUser(userId: string): Promise<object | null> {
+    const user = await this.userService.findById(userId);
+
+    if (user === null) return null;
+
+    return user;
+  }
 }

@@ -1,7 +1,6 @@
 import { Injectable, UseFilters } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { MongoExceptionFilter } from 'src/exceptions/mongo.exception';
 import { User, UserDocument } from './user.schema';
 
 @Injectable()
@@ -14,5 +13,9 @@ export class UserService {
 
   findOne(email: string): Promise<User> {
     return this.userModel.findOne({ email }).exec();
+  }
+
+  findById(userId: string): Promise<User> {
+    return this.userModel.findById(userId).select('-password').exec();
   }
 }
