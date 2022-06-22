@@ -44,18 +44,17 @@ export class ProductController {
     const result = await this.productService.findAll();
     return { data: result };
   }
-
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const result = await this.productService.findOne(id);
-    return { data: result };
-  }
-
   @Get('q')
   async findByQuery(@Query('province') qProvince: string) {
     const result = await this.productService.findByQuery({
       province: qProvince,
     });
+    return { data: result };
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    const result = await this.productService.findOne(id);
     return { data: result };
   }
 
