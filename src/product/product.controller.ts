@@ -22,23 +22,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
-  @Post()
-  @UseGuards(RolesGuard)
-  @UseGuards(JwtAuthGuard)
-  @UseInterceptors(FileInterceptor('image'))
-  async create(@Body() data, @UploadedFile() file: Express.Multer.File) {
-    try {
-      data.image = file.originalname;
-      const result = await this.productService.create(data);
-      return { data: result };
-    } catch (error) {
-      console.log(error);
-      if (error) {
-        throw new BadRequestException();
-      }
-    }
-  }
-
   @Get()
   async findAll() {
     const result = await this.productService.findAll();
@@ -56,6 +39,23 @@ export class ProductController {
   async findOne(@Param('id') id: string) {
     const result = await this.productService.findOne(id);
     return { data: result };
+  }
+
+  @Post()
+  @UseGuards(RolesGuard)
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('image'))
+  async create(@Body() data, @UploadedFile() file: Express.Multer.File) {
+    try {
+      data.image = file.originalname;
+      const result = await this.productService.create(data);
+      return { data: result };
+    } catch (error) {
+      console.log(error);
+      if (error) {
+        throw new BadRequestException();
+      }
+    }
   }
 
   @Patch(':id')
