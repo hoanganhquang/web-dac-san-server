@@ -35,7 +35,8 @@ export class AuthService {
   }
 
   async signUp(email: string, password: string): Promise<any | null> {
-    const user: any = await this.userService.create(email, password);
+    const pass = await bcrypt.hash(password, 10);
+    const user: any = await this.userService.create(email, pass);
 
     if (!user) return null;
 

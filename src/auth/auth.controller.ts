@@ -35,7 +35,7 @@ export class AuthController {
 
   @Post('signup')
   @UseFilters(MongoExceptionFilter)
-  async signUn(@Body() authUserDto: AuthUserDto) {
+  async signUp(@Body() authUserDto: AuthUserDto) {
     if (!authUserDto?.email || !authUserDto?.password)
       throw new BadRequestException();
 
