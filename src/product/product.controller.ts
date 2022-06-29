@@ -27,6 +27,7 @@ export class ProductController {
     const result = await this.productService.findAll();
     return { data: result };
   }
+
   @Get('q')
   async findByQuery(@Query('province') qProvince: string) {
     const result = await this.productService.findByQuery({

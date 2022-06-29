@@ -17,6 +17,12 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @UseGuards(JwtAuthGuard)
+  @Get('info')
+  async getInfo(@Request() req) {
+    return { data: req.user };
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Patch('password')
   async updatePass(@Request() req, @Body() data) {
     try {

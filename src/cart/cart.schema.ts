@@ -7,7 +7,7 @@ export type CartDocument = Cart & Document;
 @Schema()
 export class Cart {
   @Prop({ type: mSchema.Types.ObjectId, ref: 'user', required: true })
-  province: User;
+  user: User;
 
   @Prop()
   products: [

@@ -11,6 +11,8 @@ import { ProductModule } from './product/product.module';
 import { CartModule } from './cart/cart.module';
 import { OrderModule } from './order/order.module';
 import { AdminModule } from './admin/admin.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -18,6 +20,9 @@ import { AdminModule } from './admin/admin.module';
     MongooseModule.forRoot(
       process.env.DATABASE_URI.replace('<password>', process.env.DATABASE_PASS),
     ),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../src/public/images'),
+    }),
     AuthModule,
     UserModule,
     RegionModule,

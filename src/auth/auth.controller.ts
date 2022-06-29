@@ -5,15 +5,18 @@ import {
   Post,
   UnauthorizedException,
   UseFilters,
-  UseGuards,
 } from '@nestjs/common';
+import { CartService } from 'src/cart/cart.service';
 import { MongoExceptionFilter } from 'src/exceptions/mongo.exception';
 import { AuthService } from './auth.service';
 import { AuthUserDto } from './dto/auth-user.dto';
 
 @Controller('api/v1/auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private cartService: CartService,
+  ) {}
 
   @Post('signin')
   async signIn(@Body() authUserDto: AuthUserDto) {
@@ -41,8 +44,13 @@ export class AuthController {
       authUserDto.password,
     );
 
+    await this.cartService.create({
+      user: res.userId,
+      products: [],
+    });
+
     if (res === null) throw new UnauthorizedException();
 
-    return res;
+    return { access_token: res.access_token };
   }
 }

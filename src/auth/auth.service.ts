@@ -34,16 +34,13 @@ export class AuthService {
     return token;
   }
 
-  async signUp(
-    email: string,
-    password: string,
-  ): Promise<{ access_token: string } | null> {
-    const user: User = await this.userService.create(email, password);
+  async signUp(email: string, password: string): Promise<any | null> {
+    const user: any = await this.userService.create(email, password);
 
     if (!user) return null;
 
     const token = this.jwtSign(user);
-    return token;
+    return { access_token: token.access_token, userId: user._id };
   }
 
   async validateUser(userId: string): Promise<object | null> {
