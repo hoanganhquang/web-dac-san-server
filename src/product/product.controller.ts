@@ -69,7 +69,10 @@ export class ProductController {
     @Param('id') id: string,
   ) {
     try {
-      console.log(data);
+      if (file) {
+        data.image = file.originalname;
+      }
+
       const result = await this.productService.update(id, data);
       return { data: result };
     } catch (error) {
