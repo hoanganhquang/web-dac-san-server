@@ -62,8 +62,14 @@ export class ProductController {
   @Patch(':id')
   @UseGuards(RolesGuard)
   @UseGuards(JwtAuthGuard)
-  async update(@Param('id') id: string, @Body() data) {
+  @UseInterceptors(FileInterceptor('image'))
+  async update(
+    @Body() data,
+    @UploadedFile() file: Express.Multer.File,
+    @Param('id') id: string,
+  ) {
     try {
+      console.log(data);
       const result = await this.productService.update(id, data);
       return { data: result };
     } catch (error) {
