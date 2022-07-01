@@ -14,7 +14,18 @@ export class OrderService {
   }
 
   findAll(): Promise<Order[]> {
-    return this.orderModel.find().exec();
+    return this.orderModel
+      .aggregate([
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'user',
+            foreignField: '_id',
+            as: 'userDetails',
+          },
+        },
+      ])
+      .exec();
   }
 
   findById(id: string) {

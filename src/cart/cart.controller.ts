@@ -12,7 +12,7 @@ import {
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CartService } from './cart.service';
 
-@Controller('carts')
+@Controller('api/v1/carts')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 
@@ -24,13 +24,27 @@ export class CartController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   async addToCart(@Request() req, @Body() data: any) {
     try {
+      let check = false;
+
       const result: any = await this.cartService.findOne({
         user: req.user._id,
       });
 
-      result.products.push(data);
+      result.products.forEach((item: any) => {
+        if (item._id == data._id) {
+          let quantity = parseInt(item.quantity);
+          quantity += parseInt(data.quantity);
+          item.quantity = quantity;
+          check = true;
+        }
+      });
+
+      if (!check) {
+        result.products.push(data);
+      }
 
       const result1 = await this.cartService.update(result._id, {
         products: result.products,
@@ -38,11 +52,13 @@ export class CartController {
 
       return { data: result1 };
     } catch (error) {
+      console.log(error);
       throw new BadRequestException();
     }
   }
 
   @Patch(':action')
+  @UseGuards(JwtAuthGuard)
   async updateCart(@Request() req, @Body() data: any, @Param('action') action) {
     try {
       const result: any = await this.cartService.findOne({

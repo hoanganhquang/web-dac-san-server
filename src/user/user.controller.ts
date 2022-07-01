@@ -30,11 +30,11 @@ export class UserController {
 
       if (user === null) throw new NotFoundException();
 
-      const check = await bcrypt.compare(data.currentPass, user.password);
+      const check = await bcrypt.compare(data.curPass, user.password);
 
       if (!check) throw new BadRequestException();
 
-      const newPass = await bcrypt.hash(data.newPassword, 10);
+      const newPass = await bcrypt.hash(data.newPass, 10);
 
       const result = await this.userService.updatePass(req.user._id, {
         password: newPass,

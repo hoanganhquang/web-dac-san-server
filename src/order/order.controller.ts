@@ -13,7 +13,7 @@ import { RolesGuard } from 'src/auth/guards/role.guard';
 import { ProductService } from 'src/product/product.service';
 import { OrderService } from './order.service';
 
-@Controller('orders')
+@Controller('api/v1/orders')
 export class OrderController {
   constructor(
     private readonly orderService: OrderService,
@@ -69,7 +69,7 @@ export class OrderController {
   @Get('user')
   @UseGuards(JwtAuthGuard)
   async findByUser(@Request() req) {
-    const result = await this.orderService.findByQuery({ user: req.user_id });
+    const result = await this.orderService.findByQuery({ user: req.user._id });
     return { data: result };
   }
 
