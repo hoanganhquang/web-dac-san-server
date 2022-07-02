@@ -22,7 +22,7 @@ export class ProvinceController {
   @UseGuards(JwtAuthGuard)
   async create(@Body() data) {
     try {
-      const result = await this.provinceService.create(data.name);
+      const result = await this.provinceService.create(data);
       return { data: result };
     } catch (error) {
       console.log(error);

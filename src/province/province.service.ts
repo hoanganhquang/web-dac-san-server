@@ -9,8 +9,8 @@ export class ProvinceService {
     @InjectModel(Province.name) private provinceModel: Model<ProvinceDocument>,
   ) {}
 
-  create(name: string): Promise<Province> {
-    return this.provinceModel.create({ name });
+  create(data: {}): Promise<Province> {
+    return this.provinceModel.create(data);
   }
 
   findAll(): Promise<Province[]> {
